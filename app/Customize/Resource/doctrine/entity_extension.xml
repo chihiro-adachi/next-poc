@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<entities>
+  <entity target="Eccube\Entity\BaseInfo">
+    <field name="memo01" type="string" column="memo01" length="255" nullable="true"/>
+    <field name="memo02" type="string" column="memo02" length="255" nullable="true"/>
+  </entity>
+  <entity target="Eccube\Entity\Block">
+    <field name="memo01" type="string" column="memo01" length="255" nullable="true"/>
+  </entity>
+</entities>
