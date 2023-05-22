@@ -43,14 +43,12 @@ use Eccube\Service\PurchaseFlow\ItemHolderValidator;
 use Eccube\Service\PurchaseFlow\ItemPreprocessor;
 use Eccube\Service\PurchaseFlow\ItemValidator;
 use Eccube\Service\PurchaseFlow\PurchaseProcessor;
-use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
@@ -295,7 +293,10 @@ class Kernel extends BaseKernel
 
         // Entity拡張
         $entityExtensionFiles = (new Finder())
-            ->in([$projectDir.'/app/Customize/Resource/doctrine', $projectDir.'/app/Plugin/*/Resource/doctrine'])
+            ->in(array_merge(
+                [$projectDir.'/app/Customize/Resource/doctrine'],
+                array_map(fn ($dir) => $dir->getRealPath(), iterator_to_array($pluginDirs))
+            ))
             ->name('entity_extension.xml')
             ->files();
 
