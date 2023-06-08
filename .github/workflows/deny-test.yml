@@ -64,9 +64,12 @@ jobs:
         run: |
           docker images
 
-      - name: Container Run
+      - name: Container Exec
         run: |
           docker run -e APP_ENV=prod -e APP_DEBUG=0 -e DATABASE_URL="sqlite:///var/eccube.db" -e DATABASE_SERVER_VERSION=3 --rm -d -p 8080:80 --name eccube ec-cube
+
+      - name: Container Run
+        run: |
           echo -n $(docker inspect -f {{.State.Health.Status}} eccube)
           until [ $(docker inspect -f {{.State.Health.Status}} eccube) != "starting" ]; do
             echo -n .
