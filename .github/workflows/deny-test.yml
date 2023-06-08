@@ -60,6 +60,10 @@ jobs:
       - name: Build Container
         run: docker build -t ec-cube .
 
+      - name: Container Check
+        run: |
+          docker images
+
       - name: Container Run
         run: |
           docker run -e APP_ENV=prod -e APP_DEBUG=0 -e DATABASE_URL="sqlite:///var/eccube.db" -e DATABASE_SERVER_VERSION=3 --rm -d -p 8080:80 --name eccube ec-cube
